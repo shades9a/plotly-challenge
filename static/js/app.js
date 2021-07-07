@@ -3,16 +3,16 @@ function init() {
 
 
   d3.json("samples.json").then((data) => {
-    var sampleNames = data.names;
+    var samples = data.names;
 
-    sampleNames.forEach((sample) => {
+    samples.forEach((sample) => {
       selector
         .append("option")
         .text(sample)
         .property("value", sample);
     });
 
-    var firstSample = sampleNames[0];
+    var firstSample = samples[0];
     buildCharts(firstSample);
     buildMetadata(firstSample);
   });
@@ -20,9 +20,9 @@ function init() {
 
 init();
 
-function optionChanged(newSample) {
-  buildMetadata(newSample);
-  buildCharts(newSample);
+function optionChanged(chart) {
+  buildMetadata(chart);
+  buildCharts(chart);
   
 }
 
@@ -77,13 +77,13 @@ function buildCharts(sample) {
          colorscale: "Portland" 
        }
     }];
-    var bubbleLayout = {
+    var bubbleChart = {
         title: "Bacteria Amount per sample",
         xaxis: {title: "OTU ID"},
         automargin: true,
         hovermode: "closest"
     };
-    Plotly.newPlot("bubble", bubbleData, bubbleLayout)
+    Plotly.newPlot("bubble", bubbleData, bubbleChart)
 
     var metadata = data.metadata;
     var gaugeArray = metadata.filter(metaObj => metaObj.id == sample);  
